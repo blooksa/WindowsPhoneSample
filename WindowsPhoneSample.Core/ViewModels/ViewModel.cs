@@ -154,21 +154,11 @@ namespace WindowsPhoneSample.Core.ViewModels
             DoRestoreState(state, queryString);
         }
 
-        public void ClearState(IDictionary<string, object> state)
-        {
-            childViewModels.ForEach(x => x.ClearState(state));
-            DoClearState(state);
-        }
-
         protected virtual void DoSaveState(IDictionary<string, object> state)
         {
         }
 
         protected virtual void DoRestoreState(IDictionary<string, object> state, IDictionary<string, string> queryString)
-        {
-        }
-
-        protected virtual void DoClearState(IDictionary<string, object> state)
         {
         }
 

@@ -62,7 +62,7 @@ namespace WindowsPhoneSampleApp
                     },
                     ex =>
                     {
-                        // TODO: log something
+                        Logger.Exception(ex, "Failed to Bind()");
                     });
         }
 
@@ -74,11 +74,6 @@ namespace WindowsPhoneSampleApp
         protected override void DoSaveState(IDictionary<string, object> state)
         {
             state["PageContent"] = PageContent;
-        }
-
-        protected override void DoClearState(IDictionary<string, object> state)
-        {
-            state.Remove("PageContent");
         }
     }
 }
