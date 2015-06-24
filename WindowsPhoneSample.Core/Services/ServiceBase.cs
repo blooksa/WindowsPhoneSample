@@ -32,17 +32,21 @@ namespace WindowsPhoneSample.Core.Services
 {
     internal class ServiceBase
     {
-        protected ServiceBase(ILogger logger, IWebServer webServer)
+        protected ServiceBase(ILogger logger, IWebServer webServer, ISchedulerService schedulerService)
         {
             Contract.AssertNotNull(logger, "logger");
             Contract.AssertNotNull(webServer, "webServer");
+            Contract.AssertNotNull(schedulerService, "schedulerService");
             Logger = logger;
             WebServer = webServer;
+            Scheduler = schedulerService;
         }
 
         public ILogger Logger { get; private set; }
 
         public IWebServer WebServer { get; private set; }
+
+        public ISchedulerService Scheduler { get; private set; }
 
         protected string UrlEncode(string value)
         {

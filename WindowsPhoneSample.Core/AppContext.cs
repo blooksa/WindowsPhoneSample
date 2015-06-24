@@ -34,18 +34,21 @@ namespace WindowsPhoneSample.Core
         public AppContext(ILogger logger)
             : this(
             logger,
-            new WebServer(logger, defaultTimeout))
+            new WebServer(logger, defaultTimeout),
+            new SchedulerService())
         {
         }
 
         internal AppContext(
             ILogger logger,
-            IWebServer webServer)
+            IWebServer webServer,
+            ISchedulerService schedulerService)
             : this(
             logger,
             webServer,
-            new SettingsService(logger, webServer, new StorageProvider()),
-            new SessionService(logger, webServer))
+            schedulerService,
+            new SettingsService(logger, webServer, schedulerService, new StorageProvider()),
+            new SessionService(logger, webServer, schedulerService))
         {
         }
 
@@ -55,16 +58,19 @@ namespace WindowsPhoneSample.Core
         internal AppContext(
             ILogger logger,
             IWebServer webServer,
+            ISchedulerService schedulerService,
             ISettingsService settingsService,
             ISessionService sessionService)
         {
             Contract.AssertNotNull(logger, "logger");
             Contract.AssertNotNull(webServer, "webServer");
+            Contract.AssertNotNull(schedulerService, "schedulerService");
             Contract.AssertNotNull(settingsService, "settingsService");
             Contract.AssertNotNull(sessionService, "sessionService");
 
             this.logger = logger;
             WebServer = webServer;
+            Scheduler = schedulerService;
             SettingsService = settingsService;
             SessionService = sessionService;
         }
@@ -103,6 +109,8 @@ namespace WindowsPhoneSample.Core
                 await settings.LoadAsync();
             }
         }
+
+        public ISchedulerService Scheduler { get; private set; }
 
         public IWebServer WebServer { get; private set; }
 

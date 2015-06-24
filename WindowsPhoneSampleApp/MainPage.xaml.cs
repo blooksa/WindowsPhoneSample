@@ -35,6 +35,7 @@ namespace WindowsPhoneSampleApp
             new MainViewModel(
                 SampleApplication.Current.Logger, 
                 SampleApplication.Current.Context.WebServer, 
+                SampleApplication.Current.Context.Scheduler, 
                 SampleApplication.Current.Context.SessionService))
         {
             InitializeComponent();

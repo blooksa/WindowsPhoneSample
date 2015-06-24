@@ -32,8 +32,8 @@ namespace WindowsPhoneSample.Core.Services
         private readonly ReplaySubject<bool> loggedOnSubject;
         private bool isLoggedOn;
 
-        public SessionService(ILogger logger, IWebServer webServer)
-            : base(logger, webServer)
+        public SessionService(ILogger logger, IWebServer webServer, ISchedulerService schedulerService)
+            : base(logger, webServer, schedulerService)
         {
             loggedOnSubject = new ReplaySubject<bool>(1);
             isLoggedOn = false;

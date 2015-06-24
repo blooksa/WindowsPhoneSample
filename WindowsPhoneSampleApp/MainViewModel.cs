@@ -34,8 +34,8 @@ namespace WindowsPhoneSampleApp
     {
         private readonly ISessionService sessionService;
 
-        public MainViewModel(ILogger logger, IWebServer webServer, ISessionService sessionService)
-            : base(logger, webServer)
+        public MainViewModel(ILogger logger, IWebServer webServer, ISchedulerService schedulerService, ISessionService sessionService)
+            : base(logger, webServer, schedulerService)
         {
             this.sessionService = sessionService;
         }
@@ -54,7 +54,7 @@ namespace WindowsPhoneSampleApp
             yield return sessionService.IsLoggedOn
                 .Where(x => x)
                 .Take(1)
-                .ObserveOnDispatcher()
+                .ObserveOn(Scheduler.Dispatcher)
                 .Subscribe(
                     _ =>
                     {

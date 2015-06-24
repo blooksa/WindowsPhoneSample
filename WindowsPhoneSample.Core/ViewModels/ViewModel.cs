@@ -22,9 +22,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using WindowsPhoneSample.Core.Extensions;
+using WindowsPhoneSample.Core.Services;
 using WindowsPhoneSample.Core.Web;
 
 namespace WindowsPhoneSample.Core.ViewModels
@@ -36,12 +38,14 @@ namespace WindowsPhoneSample.Core.ViewModels
         private readonly List<IDisposable> disposables;
         private readonly List<ViewModel> childViewModels;
 
-        protected ViewModel(ILogger logger, IWebServer webServer)
+        protected ViewModel(ILogger logger, IWebServer webServer, ISchedulerService schedulerService)
         {
             Contract.AssertNotNull(logger, "logger");
             Contract.AssertNotNull(webServer, "webServer");
+            Contract.AssertNotNull(schedulerService, "schedulerService");
             Logger = logger;
             WebServer = webServer;
+            Scheduler = schedulerService;
             disposables = new List<IDisposable>();
             childViewModels = new List<ViewModel>();
         }
@@ -65,6 +69,7 @@ namespace WindowsPhoneSample.Core.ViewModels
         public bool IsNetworkAvailable { get { return WebServer.IsNetworkAvailable; } }
         protected ILogger Logger { get; private set; }
         protected IWebServer WebServer { get; private set; }
+        protected ISchedulerService Scheduler { get; private set; }
 
         public bool IsBound { get; private set; }
 

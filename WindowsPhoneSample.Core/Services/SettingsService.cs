@@ -53,8 +53,8 @@ namespace WindowsPhoneSample.Core.Services
             };
         }
 
-        internal SettingsService(ILogger logger, IWebServer webServer, IStorageProvider storageProvider)
-            : base(logger, webServer)
+        internal SettingsService(ILogger logger, IWebServer webServer, ISchedulerService schedulerService, IStorageProvider storageProvider)
+            : base(logger, webServer, schedulerService)
         {
             this.storageProvider = storageProvider;
             settings = new Dictionary<string, object>();

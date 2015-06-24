@@ -29,6 +29,7 @@ namespace WindowsPhoneSample.Core
     public interface IAppContext
     {
         IWebServer WebServer { get; }
+        ISchedulerService Scheduler { get; }
         ISettingsService SettingsService { get; } 
         ISessionService SessionService { get; } 
 
