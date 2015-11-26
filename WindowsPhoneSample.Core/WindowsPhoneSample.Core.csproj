@@ -87,6 +87,7 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IAppContext.cs" />
+    <Compile Include="IoC.cs" />
     <Compile Include="IStorageProvider.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="NavigationHelper.cs" />
