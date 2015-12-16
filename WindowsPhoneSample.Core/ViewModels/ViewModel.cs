@@ -127,6 +127,7 @@ namespace WindowsPhoneSample.Core.ViewModels
                 }
                 DoUnbind();
                 string classAndMethod = GetType().Name + ".Unbind()";
+                // Run dispose using a task so we don't occupy the UI thread while unloading a page.
                 Task.Factory.StartNew(() =>
                 {
                     disposables.ForEach(x =>
