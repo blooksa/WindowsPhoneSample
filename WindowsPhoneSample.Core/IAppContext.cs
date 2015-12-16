@@ -21,18 +21,12 @@
 // THE SOFTWARE.
 using System;
 using System.Threading.Tasks;
-using WindowsPhoneSample.Core.Services;
-using WindowsPhoneSample.Core.Web;
 
 namespace WindowsPhoneSample.Core
 {
     public interface IAppContext
     {
-        IWebServer WebServer { get; }
-        ISchedulerService Scheduler { get; }
-        ISettingsService SettingsService { get; } 
-        ISessionService SessionService { get; } 
-
+        IoC IoC { get; }
         Task StartupAsync();
         Task StartupAsync(TimeSpan timeout);
         Task ShutdownAsync();

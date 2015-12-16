@@ -22,6 +22,8 @@
 using Windows.UI.Xaml.Navigation;
 using WindowsPhoneSample.Core;
 using WindowsPhoneSample.Core.Pages;
+using WindowsPhoneSample.Core.Services;
+using WindowsPhoneSample.Core.Web;
 
 namespace WindowsPhoneSampleApp
 {
@@ -33,10 +35,10 @@ namespace WindowsPhoneSampleApp
         public MainPage()
             : base(
             new MainViewModel(
-                SampleApplication.Current.Logger, 
-                SampleApplication.Current.Context.WebServer, 
-                SampleApplication.Current.Context.Scheduler, 
-                SampleApplication.Current.Context.SessionService))
+                SampleApplication.Current.Logger,
+                SampleApplication.Current.Context.IoC.Resolve<IWebServer>(),
+                SampleApplication.Current.Context.IoC.Resolve<ISchedulerService>(),
+                SampleApplication.Current.Context.IoC.Resolve<ISessionService>()))
         {
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Required;

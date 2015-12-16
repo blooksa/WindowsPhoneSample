@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 using System;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 using WindowsPhoneSample.Core.Services;
 using WindowsPhoneSample.Core.Web;
 
@@ -29,7 +30,6 @@ namespace WindowsPhoneSample.Core
     public sealed class AppContext : IAppContext
     {
         private static readonly TimeSpan defaultTimeout = TimeSpan.FromSeconds(5);
-        private readonly ILogger logger;
 
         public AppContext(ILogger logger)
             : this(
@@ -68,16 +68,16 @@ namespace WindowsPhoneSample.Core
             Contract.AssertNotNull(settingsService, "settingsService");
             Contract.AssertNotNull(sessionService, "sessionService");
 
-            this.logger = logger;
-            WebServer = webServer;
-            Scheduler = schedulerService;
-            SettingsService = settingsService;
-            SessionService = sessionService;
+            IoC = new IoC();
+            IoC.RegisterInstance(webServer);
+            IoC.RegisterInstance(schedulerService);
+            IoC.RegisterInstance(settingsService);
+            IoC.RegisterInstance(sessionService);
         }
 
         public async Task ShutdownAsync()
         {
-            IInternalSettingsService settings = SettingsService as IInternalSettingsService;
+            IInternalSettingsService settings = IoC.Resolve<ISettingsService>() as IInternalSettingsService;
             if (settings != null)
             {
                 await settings.SaveAsync();
@@ -102,20 +102,14 @@ namespace WindowsPhoneSample.Core
 
         public async Task StartupAsync(string endpoint, TimeSpan timeout)
         {
-            WebServer.Timeout = timeout;
-            IInternalSettingsService settings = SettingsService as IInternalSettingsService;
+            IoC.Resolve<IWebServer>().Timeout = timeout;
+            IInternalSettingsService settings = IoC.Resolve<ISettingsService>() as IInternalSettingsService;
             if (settings != null)
             {
                 await settings.LoadAsync();
             }
         }
 
-        public ISchedulerService Scheduler { get; private set; }
-
-        public IWebServer WebServer { get; private set; }
-
-        public ISettingsService SettingsService { get; private set; }
-
-        public ISessionService SessionService { get; private set; }
+        public IoC IoC { get; private set; }
     }
 }
